@@ -33,7 +33,7 @@ app.post('/users', (req, res) => {
   const users = readUsers();
   const newUser = { id: Date.now(), name: req.body.name };
   users.push(newUser);
-  writeUsers();
+  writeUsers(users);
   res.status(201).json(newUser);
 });
 
