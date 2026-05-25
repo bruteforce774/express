@@ -50,7 +50,7 @@ app.put('/users/:id', (req, res) => {
 // DELETE a user
 app.delete('/users/:id', (req, res) => {
   let users = readUsers();
-  user = users.filter(u => u.id !== Number(req.params.id));
+  users = users.filter(u => u.id !== Number(req.params.id));
   writeUsers(users);
   res.status(204).send();
 });
