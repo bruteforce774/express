@@ -1,18 +1,17 @@
+import Database from 'better-sqlite3';
 const express = require('express');
 const app = express();
 app.use(express.json());
 
-// use JSON file for storage
-const fs = require('fs')
-const DB_FILE = './users.json';
+// Use database
+const db = new Database('users.db');
 
-function readUsers() {
-  return JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
-}
-
-function writeUsers(users) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(users, null, 2));
-}
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+  )
+`);
 
 // GET all users
 app.get('/users', (req, res) => {
