@@ -2,11 +2,17 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// In-memory "database" for now
-let users = [
-  { id: 1, name: 'Alice' },
-  { id: 2, name: 'Bob' },
-];
+// use JSON file for storage
+const fs = require('fs')
+const DB_FILE = './users.json';
+
+function readUsers() {
+  return JSON.parse(fs.readFileSync(DB_FILE, utf8));
+}
+
+function writeUsers(users) {
+  fs.writeFileSync(DB_FILE, JSON.stringify(users, null, 2));
+}
 
 // GET all users
 app.get('/users', (req, res) => {
