@@ -16,11 +16,13 @@ function writeUsers(users) {
 
 // GET all users
 app.get('/users', (req, res) => {
+  const users = readUsers();
   res.json(users);
 });
 
 // GET one user by ID
 app.get('/users/:id', (req, res) => {
+  const users = readUsers();
   const user = users.find(u => u.id === Number(req.params.id));
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json(user);
@@ -28,22 +30,28 @@ app.get('/users/:id', (req, res) => {
 
 // POST - create a user
 app.post('/users', (req, res) => {
+  readUsers();
   const newUser = { id: Date.now(), name: req.body.name };
   users.push(newUser);
+  writeUsers();
   res.status(201).json(newUser);
 });
 
 // PUT - update a user
 app.put('/users/:id', (req, res) => {
+  readUsers();
   const user = users.find(u => u.id === Number(req.params.id));
   if (!user) return res.status(404).json({ error: 'User not found' });
   user.name = req.body.name;
+  writeUsers();
   res.json(user);
 })
 
 // DELETE a user
 app.delete('/users/:id', (req, res) => {
-  users = users.filter(u => u.id !== Number(req.params.id));
+  readUsers();
+  user = users.filter(u => u.id !== Number(req.params.id));
+  writeUsers();
   res.status(204).send();
 });
 
