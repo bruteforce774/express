@@ -27,6 +27,14 @@ app.post('/users', (req, res) => {
   res.status(201).json(newUser);
 });
 
+// PUT - update a user
+app.put('/users/:id', (req, res) => {
+  const user = users.find(u => u.id === Number(req.params.id));
+  if (!user) return res.status(404).json({ error: 'User not found' });
+  user.name = req.body.name;
+  res.json(user);
+})
+
 // DELETE a user
 app.delete('/users/:id', (req, res) => {
   users = users.filter(u => u.id !== Number(req.params.id));
